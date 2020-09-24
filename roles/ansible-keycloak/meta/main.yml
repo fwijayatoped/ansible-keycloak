@@ -1,0 +1,41 @@
+dependencies:
+  - role: ansible-unarchive-deps
+    version: v1.1.5
+  - openjdk_app: jre
+    role: ansible-openjdk
+    version: v2.0.8
+galaxy_info:
+  author: Andrew Rothstein
+  company: BlackRock
+  description: Installs keycloak
+  galaxy_tags:
+  - sso
+  - secret
+  - key
+  license:
+  - MIT
+  min_ansible_version: 2.0
+  platforms:
+  - name: Archlinux
+    versions:
+    - all
+  - name: Debian
+    versions:
+    - buster
+    - stretch
+  - name: EL
+    versions:
+    - 7
+    - 8
+  - name: Fedora
+    versions:
+    - 31
+    - 32
+  - name: Gentoo
+    versions:
+    - all
+  - name: Ubuntu
+    versions:
+    - bionic
+    - focal
+    - xenial

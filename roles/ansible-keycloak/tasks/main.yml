@@ -1,0 +1,87 @@
+---
+- name: check for existing install...
+  become: yes
+  become_user: root
+  stat:
+    path: '{{ keycloak_install_dir }}'
+  changed_when: False
+  register: keycloak_binary
+- when: not keycloak_binary.stat.exists
+  block:
+    - name: download tgz
+      become: yes
+      become_user: root
+      get_url:
+        url: '{{ keycloak_tgz_url }}'
+        dest: /tmp/{{ keycloak_tgz }}
+        checksum: '{{ keycloak_checksum }}'
+        mode: 0644
+    - name: unarchive
+      become: yes
+      become_user: root
+      unarchive:
+        remote_src: yes
+        src: /tmp/{{ keycloak_tgz }}
+        dest: '{{ keycloak_parent_install_dir }}'
+        creates: '{{ keycloak_install_dir }}'
+  always:
+    - name: cleanup...
+      become: yes
+      become_user: root
+      file:
+        path: /tmp/{{ keycloak_tgz }}
+        state: absent
+
+- name: link
+  become: yes
+  become_user: root
+  file:
+    src: '{{ keycloak_install_dir }}'
+    dest: '{{ keycloak_link_dir }}'
+    state: link
+
+- name: check for JDBC driver...
+  become: yes
+  become_user: root
+  stat:
+    path: '{{ keycloak_install_dir }}/{{ keycloak_jdbc_module_dir }}/{{ keycloak_jdbc_version }}.jar'
+  changed_when: False
+  register: jdbc_module
+
+- when: not jdbc_module.stat.exists
+  block:
+    - name: create jdbc module directory
+      file:
+        path: '{{ keycloak_link_dir }}/{{ keycloak_jdbc_module_dir }}'
+        state: directory
+
+    - name: download jdbc module...
+      become: yes
+      get_url:
+        url: '{{ keycloak_jdbc_url }}/postgresql-{{ keycloak_jdbc_version }}.jar'
+        dest: '{{ keycloak_link_dir }}/{{ keycloak_jdbc_module_dir }}/postgresql-{{ keycloak_jdbc_version }}.jar'
+        checksum: '{{ keycloak_jdbc_checksum }}'
+        mode: 0644
+
+    - name: create JDBC module.xml
+      template:
+        src: module.xml.j2
+        dest: '{{ keycloak_link_dir }}/{{ keycloak_jdbc_module_dir }}/module.xml'
+        mode: '0644'
+    
+    - name: copy standalone-ha.xml
+      template: 
+        src: standalone-ha.xml.j2
+        dest: '{{ keycloak_link_dir }}/{{ keycloak_config_dir }}/standalone-ha.xml'
+        mode: 0644
+
+- name: add to path
+  become: yes
+  become_user: root
+  with_items:
+    - f: keycloak.sh
+      d: /etc/profile.d
+  template:
+    src: '{{ item.f }}.j2'
+    dest: '{{ item.d }}/{{ item.f }}'
+    mode: '{{ item.m|default("0644") }}'
