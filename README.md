@@ -1,23 +1,36 @@
+
 Playbook for Ansible Keycloak Standalone HA
 ============================================
 
-Dependencies for the Ansible unarchive module, et. al.
+  
+
+Contain roles:
+* ansible-keycloak
+* ansible-openjdk
+* ansible-unarchive-deps
+  
 
 Example Playbook
 ----------------
 
-```yml
-- hosts: servers
-  roles:
-    - andrewrothstein.unarchive-deps
+  
+
+```bash
+
+$ ansible-playbook -i inventory.cfg playbook.yml 
+
 ```
+
 
 License
 -------
 
 MIT
 
+  
+
 Author Information
 ------------------
+  
 
 Suhendra Ahmad <syuaibi@gmail.com>
