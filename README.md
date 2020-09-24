@@ -21,6 +21,10 @@ $ ansible-playbook -i inventory.cfg playbook.yml
 
 ```
 
+TODO
+-------
+- systemd integration
+
 
 License
 -------
