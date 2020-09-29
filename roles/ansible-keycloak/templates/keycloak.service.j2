@@ -1,0 +1,16 @@
+[Unit]
+Description=Keycloak Server
+After=syslog.target network.target
+Before=httpd.service
+
+[Service]
+Type=idle
+Environment=LAUNCH_JBOSS_IN_BACKGROUND=1 JAVA_HOME=/usr/local/openjdk-jre
+User={{ keycloak_service_user }}
+Group={{ keycloak_service_group }}
+ExecStart={{ keycloak_link_dir }}/bin/standalone.sh --server-config=standalone-ha.xml
+TimeoutStartSec=600
+TimeoutStopSec=600
+
+[Install]
+WantedBy=multi-user.target

@@ -85,3 +85,17 @@
     src: '{{ item.f }}.j2'
     dest: '{{ item.d }}/{{ item.f }}'
     mode: '{{ item.m|default("0644") }}'
+
+- name: configure systemd
+  template:
+    src: keycloak.service.j2
+    dest: /etc/systemd/system/keycloak.service
+    owner: root
+    group: root
+    mode: 0644
+  become: yes
+  notify:
+    - reload systemd
+    - restart keycloak
+
+- meta: flush_handlers

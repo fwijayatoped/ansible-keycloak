@@ -17,6 +17,9 @@ keycloak_postgres_url: 127.0.0.1
 keycloak_postgres_port: 5432
 keycloak_postgres_db: keycloak
 
+keycloak_service_user: aza
+keycloak_service_group: aza
+
 keycloak_checksums:
   # https://downloads.jboss.org/keycloak/3.2.1.Final/keycloak-3.2.1.Final.tar.gz.sha1
   '3.2.1.Final': sha1:de6d7ac62e2a82c7ecdfcf04c9970163415d9b75
