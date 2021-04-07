@@ -4,4 +4,13 @@
   roles:
     - role: ansible-keycloak
       become: yes
+  vars:
+    keycloak_config_dir: standalone/configuration
+    keycloak_postgres_username: aza
+    keycloak_postgres_password: password
+    keycloak_postgres_url: 0.0.0.0
+    keycloak_postgres_port: 5432
+    keycloak_postgres_db: keycloak
+    keycloak_service_user: root
+    keycloak_service_group: root
     
