@@ -1,7 +1,7 @@
 dependencies:
-- role: andrewrothstein.unarchive-deps
+- role: ansible-unarchive-deps
   version: v1.1.5
-- role: andrewrothstein.alpine-glibc-shim
+- role: ansible-alpine-glibc-shim
   version: v2.0.12
 galaxy_info:
   author: Andrew Rothstein
