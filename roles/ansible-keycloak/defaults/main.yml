@@ -2,7 +2,7 @@
 keycloak_ver: 11.0.0
 keycloak_mirror: https://downloads.jboss.org/keycloak
 
-keycloak_parent_install_dir: /usr/local
+keycloak_parent_install_dir: /var/lib
 
 keycloak_jdbc_version: 42.2.16
 keycloak_jdbc_module_dir: modules/system/layers/keycloak/org/postgresql/main
@@ -11,8 +11,8 @@ keycloak_jdbc_checksum: sha1:a9ee12f737bd5dc7d046e4c065e391d38d6a3cfc
 
 keycloak_config_dir: standalone/configuration
 
-keycloak_postgres_username: root
-keycloak_postgres_password: manglayang2010
+keycloak_postgres_username: aza
+keycloak_postgres_password: password
 keycloak_postgres_url: 127.0.0.1
 keycloak_postgres_port: 5432
 keycloak_postgres_db: keycloak
