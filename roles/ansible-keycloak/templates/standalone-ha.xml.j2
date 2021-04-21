@@ -340,7 +340,23 @@
                 </stack>
                 <stack name="tcp">
                     <transport type="TCP" socket-binding="jgroups-tcp"/>
-                    <socket-protocol type="MPING" socket-binding="jgroups-mping"/>
+                    <!-- <socket-protocol type="MPING" socket-binding="jgroups-mping"/> -->
+                    <<protocol type="JDBC_PING">
+                        <property name="datasource_jndi_name">java:jboss/datasources/KeycloakDS</property>
+                        <property name="initialize_sql">
+                            CREATE TABLE IF NOT EXISTS JGROUPSPING (
+                            own_addr VARCHAR(200) NOT NULL,
+                            cluster_name VARCHAR(200) NOT NULL,
+                            created TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+                            ping_data BYTEA,
+                            CONSTRAINT PK_JGROUPSPING PRIMARY KEY (own_addr, cluster_name)
+                            )
+                        </property>
+                    </protocol>
+                    <!-- <protocol type="TCPPING">
+                        <property name="initial_hosts">10.133.117.155[8600],10.133.87.27[8600]</property>
+                        <property name="port_range">1000</property>
+                    </protocol> -->
                     <protocol type="MERGE3"/>
                     <socket-protocol type="FD_SOCK" socket-binding="jgroups-tcp-fd"/>
                     <protocol type="FD_ALL"/>
