@@ -320,7 +320,7 @@
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:jgroups:8.0">
             <channels default="ee">
-                <channel name="ee" stack="udp" cluster="ejb"/>
+                <channel name="ee" stack="tcp" cluster="ejb"/>
             </channels>
             <stacks>
                 <stack name="udp">
@@ -341,7 +341,7 @@
                 <stack name="tcp">
                     <transport type="TCP" socket-binding="jgroups-tcp"/>
                     <!-- <socket-protocol type="MPING" socket-binding="jgroups-mping"/> -->
-                    <<protocol type="JDBC_PING">
+                    <protocol type="JDBC_PING">
                         <property name="datasource_jndi_name">java:jboss/datasources/KeycloakDS</property>
                         <property name="initialize_sql">
                             CREATE TABLE IF NOT EXISTS JGROUPSPING (
@@ -650,13 +650,13 @@
     </profile>
     <interfaces>
         <interface name="management">
-            <inet-address value="${jboss.bind.address.management:127.0.0.1}"/>
+            <inet-address value="${jboss.bind.address.management:{{ keycloak_bind_address_management }}}"/>
         </interface>
         <interface name="private">
-            <inet-address value="${jboss.bind.address.private:127.0.0.1}"/>
+            <inet-address value="${jboss.bind.address.private:{{ keycloak_bind_address_private }}}"/>
         </interface>
         <interface name="public">
-            <inet-address value="${jboss.bind.address:127.0.0.1}"/>
+            <inet-address value="${jboss.bind.address:{{ keycloak_bind_address_public }}}"/>
         </interface>
     </interfaces>
     <socket-binding-group name="standard-sockets" default-interface="public" port-offset="${jboss.socket.binding.port-offset:0}">
