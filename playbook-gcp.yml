@@ -1,5 +1,5 @@
 ---
-- hosts: dev
+- hosts: gcp
   remote_user: root
   roles:
     - role: ansible-keycloak
@@ -7,10 +7,9 @@
   vars:
     keycloak_config_dir: standalone/configuration
     keycloak_postgres_username: aza
-    keycloak_postgres_password: password
-    keycloak_postgres_url: 10.104.0.2
+    keycloak_postgres_password: P@$$w0rd123
+    keycloak_postgres_url: 10.21.33.120
     keycloak_postgres_port: 5432
     keycloak_postgres_db: keycloak
     keycloak_service_user: root
     keycloak_service_group: root
-    

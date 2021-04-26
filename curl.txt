@@ -1,0 +1,6 @@
+es_test:7b8c3334-cf6a-45ed-81b5-6bd7719f4f55
+
+curl --location --request POST 'http://10.21.33.118:8080/auth/realms/gcp-elasticsearch/protocol/openid-connect/token' \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--header 'Authorization: Basic ZXNfdGVzdDo3YjhjMzMzNC1jZjZhLTQ1ZWQtODFiNS02YmQ3NzE5ZjRmNTU=' \
+--data-urlencode 'grant_type=client_credentials'
