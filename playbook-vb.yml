@@ -1,0 +1,18 @@
+---
+- hosts: dev
+  remote_user: root
+  roles:
+    - role: ansible-keycloak
+      become: yes
+  vars:
+    keycloak_config_dir: standalone/configuration
+    keycloak_postgres_username: aza
+    keycloak_postgres_password: manglayang2010
+    keycloak_postgres_url: 127.0.0.1
+    keycloak_postgres_port: 5432
+    keycloak_postgres_db: keycloak
+    keycloak_service_user: root
+    keycloak_service_group: root
+    keycloak_bind_address_management: 192.168.56.100
+    keycloak_bind_address_private: 192.168.56.100
+    keycloak_bind_address_public: 192.168.56.100
