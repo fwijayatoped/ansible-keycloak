@@ -113,7 +113,7 @@
                         <password>sa</password>
                     </security>
                 </datasource>
-                <datasource jndi-name="java:jboss/datasources/KeycloakDS" pool-name="KeycloakDS" enabled="true" use-java-context="true" statistics-enabled="${wildfly.datasources.statistics-enabled:${wildfly.statistics-enabled:false}}">
+                <datasource jndi-name="java:jboss/datasources/KeycloakDS" pool-name="KeycloakDS" enabled="true" use-java-context="true">
                     <connection-url>jdbc:postgresql://{{ keycloak_postgres_url }}:{{ keycloak_postgres_port }}/{{ keycloak_postgres_db }} </connection-url>
                     <driver>postgresql</driver>
                     <pool>
@@ -361,28 +361,68 @@
                 </local-cache>
                 <replicated-cache name="work">
                     <expiration lifespan="900000000000000000"/>
+                    <!--<remote-store cache="work" remote-servers="remote-cache" fetch-state="false" passivation="false" preload="false" purge="false" shared="true">
+                        <property name="rawValues">true</property>
+                        <property name="marshaller">org.keycloak.cluster.infinispan.KeycloakHotRodMarshallerFactory</property>
+                        <property name="protocolVersion">2.9</property>
+                    </remote-store>-->
                 </replicated-cache>
                 <distributed-cache name="sessions" owners="1">
                     <expiration lifespan="900000000000000000"/>
+                    <!--<remote-store cache="sessions" remote-servers="remote-cache" fetch-state="false" passivation="false" preload="false" purge="false" shared="true">
+                        <property name="rawValues">true</property>
+                        <property name="marshaller">org.keycloak.cluster.infinispan.KeycloakHotRodMarshallerFactory</property>
+                        <property name="protocolVersion">2.9</property>
+                    </remote-store>-->
                 </distributed-cache>
                 <distributed-cache name="authenticationSessions" owners="1">
                     <expiration lifespan="900000000000000000"/>
+                    <!--<remote-store cache="authenticationSessions" remote-servers="remote-cache" fetch-state="false" passivation="false" preload="false" purge="false" shared="true">
+                        <property name="rawValues">true</property>
+                        <property name="marshaller">org.keycloak.cluster.infinispan.KeycloakHotRodMarshallerFactory</property>
+                        <property name="protocolVersion">2.9</property>
+                    </remote-store>-->
                 </distributed-cache>
                 <distributed-cache name="offlineSessions" owners="1">
                     <expiration lifespan="900000000000000000"/>
+                    <!--<remote-store cache="offlineSessions" remote-servers="remote-cache" fetch-state="false" passivation="false" preload="false" purge="false" shared="true">
+                        <property name="rawValues">true</property>
+                        <property name="marshaller">org.keycloak.cluster.infinispan.KeycloakHotRodMarshallerFactory</property>
+                        <property name="protocolVersion">2.9</property>
+                    </remote-store>-->
                 </distributed-cache>
                 <distributed-cache name="clientSessions" owners="1">
                     <expiration lifespan="900000000000000000"/>
+                    <!--<remote-store cache="clientSessions" remote-servers="remote-cache" fetch-state="false" passivation="false" preload="false" purge="false" shared="true">
+                        <property name="rawValues">true</property>
+                        <property name="marshaller">org.keycloak.cluster.infinispan.KeycloakHotRodMarshallerFactory</property>
+                        <property name="protocolVersion">2.9</property>
+                    </remote-store>-->
                 </distributed-cache>
                 <distributed-cache name="offlineClientSessions" owners="1">
                     <expiration lifespan="900000000000000000"/>
+                    <!--<remote-store cache="offlineClientSessions" remote-servers="remote-cache" fetch-state="false" passivation="false" preload="false" purge="false" shared="true">
+                        <property name="rawValues">true</property>
+                        <property name="marshaller">org.keycloak.cluster.infinispan.KeycloakHotRodMarshallerFactory</property>
+                        <property name="protocolVersion">2.9</property>
+                    </remote-store>-->
                 </distributed-cache>
                 <distributed-cache name="loginFailures" owners="1">
                     <expiration lifespan="900000000000000000"/>
+                    <!--<remote-store cache="loginFailures" remote-servers="remote-cache" fetch-state="false" passivation="false" preload="false" purge="false" shared="true">
+                        <property name="rawValues">true</property>
+                        <property name="marshaller">org.keycloak.cluster.infinispan.KeycloakHotRodMarshallerFactory</property>
+                        <property name="protocolVersion">2.9</property>
+                    </remote-store>-->
                 </distributed-cache>
                 <distributed-cache name="actionTokens" owners="2">
                     <heap-memory size="-1"/>
                     <expiration interval="300000" lifespan="900000000000000000" max-idle="-1"/>
+                    <!--<remote-store cache="actionTokens" remote-servers="remote-cache" fetch-state="false" passivation="false" preload="false" purge="false" shared="true">
+                        <property name="rawValues">true</property>
+                        <property name="marshaller">org.keycloak.cluster.infinispan.KeycloakHotRodMarshallerFactory</property>
+                        <property name="protocolVersion">2.9</property>
+                    </remote-store>-->
                 </distributed-cache>
             </cache-container>
             <cache-container name="server" default-cache="default" marshaller="PROTOSTREAM" aliases="singleton cluster" modules="org.wildfly.clustering.server">
