@@ -16,4 +16,4 @@
     keycloak_service_group: root
     infinispan_address: 10.21.47.221
     infinispan_username: keycloak
-    infinispan_username: keycloak
+    infinispan_password: keycloak
