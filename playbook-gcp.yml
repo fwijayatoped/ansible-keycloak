@@ -6,10 +6,13 @@
       become: yes
   vars:
     keycloak_config_dir: standalone/configuration
-    keycloak_postgres_username: aza
-    keycloak_postgres_password: P@$$w0rd123
-    keycloak_postgres_url: 10.21.33.120
+    keycloak_postgres_username: keycloak
+    keycloak_postgres_password: keycloak
+    keycloak_postgres_url: 10.21.47.221
     keycloak_postgres_port: 5432
     keycloak_postgres_db: keycloak
     keycloak_service_user: root
     keycloak_service_group: root
+    infinispan_address: 10.21.47.221
+    infinispan_username: keycloak
+    infinispan_username: keycloak

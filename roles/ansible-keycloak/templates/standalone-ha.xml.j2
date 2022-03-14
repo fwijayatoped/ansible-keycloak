@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 
-<server xmlns="urn:jboss:domain:10.0">
+<server xmlns="urn:jboss:domain:19.0">
     <extensions>
         <extension module="org.jboss.as.clustering.infinispan"/>
         <extension module="org.jboss.as.clustering.jgroups"/>
@@ -130,16 +130,8 @@
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:bean-validation:1.0"/>
         <subsystem xmlns="urn:jboss:domain:core-management:1.0"/>
-        <subsystem xmlns="urn:jboss:domain:datasources:5.0">
+        <subsystem xmlns="urn:jboss:domain:datasources:6.0">
             <datasources>
-                <datasource jndi-name="java:jboss/datasources/ExampleDS" pool-name="ExampleDS" enabled="true" use-java-context="true" statistics-enabled="${wildfly.datasources.statistics-enabled:${wildfly.statistics-enabled:false}}">
-                    <connection-url>jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE</connection-url>
-                    <driver>h2</driver>
-                    <security>
-                        <user-name>sa</user-name>
-                        <password>sa</password>
-                    </security>
-                </datasource>
                 <datasource jndi-name="java:jboss/datasources/KeycloakDS" pool-name="KeycloakDS" enabled="true" use-java-context="true" statistics-enabled="${wildfly.datasources.statistics-enabled:${wildfly.statistics-enabled:false}}">
                     <connection-url>jdbc:postgresql://{{ keycloak_postgres_url }}:{{ keycloak_postgres_port }}/{{ keycloak_postgres_db }} </connection-url>
                     <driver>postgresql</driver>
@@ -164,7 +156,7 @@
         <subsystem xmlns="urn:jboss:domain:deployment-scanner:2.0">
             <deployment-scanner path="deployments" relative-to="jboss.server.base.dir" scan-interval="5000" runtime-failure-causes-rollback="${jboss.deployment.scanner.rollback.on.failure:false}"/>
         </subsystem>
-        <subsystem xmlns="urn:jboss:domain:ee:5.0">
+        <subsystem xmlns="urn:jboss:domain:ee:6.0">
             <spec-descriptor-property-replacement>false</spec-descriptor-property-replacement>
             <concurrent>
                 <context-services>
@@ -182,7 +174,7 @@
             </concurrent>
             <default-bindings context-service="java:jboss/ee/concurrency/context/default" datasource="java:jboss/datasources/ExampleDS" managed-executor-service="java:jboss/ee/concurrency/executor/default" managed-scheduled-executor-service="java:jboss/ee/concurrency/scheduler/default" managed-thread-factory="java:jboss/ee/concurrency/factory/default"/>
         </subsystem>
-        <subsystem xmlns="urn:jboss:domain:ejb3:7.0">
+        <subsystem xmlns="urn:jboss:domain:ejb3:9.0">
             <session-bean>
                 <stateless>
                     <bean-instance-pool-ref pool-name="slsb-strict-max-pool"/>
@@ -229,14 +221,21 @@
             <worker name="default"/>
             <buffer-pool name="default"/>
         </subsystem>
-        <subsystem xmlns="urn:jboss:domain:infinispan:10.0">
+        <subsystem xmlns="urn:jboss:domain:infinispan:13.0">
             <cache-container name="keycloak" module="org.keycloak.keycloak-model-infinispan">
                 <transport lock-timeout="60000"/>
                 <local-cache name="realms">
-                    <object-memory size="10000"/>
+                    <heap-memory size="10000"/>
+                    <remote-store cache="realms" remote-servers="remote-cache" fetch-state="false" passivation="false" preload="false" purge="false" shared="true">
+                        <property name="infinispan.client.hotrod.auth_username">{{ infinispan_username }}</property>
+                        <property name="infinispan.client.hotrod.auth_password">{{ infinispan_password }}</property>
+                        <property name="rawValues">true</property>
+                        <property name="marshaller">org.keycloak.cluster.infinispan.KeycloakHotRodMarshallerFactory</property>
+                        <property name="protocolVersion">2.9</property>
+                    </remote-store>
                 </local-cache>
                 <local-cache name="users">
-                    <object-memory size="10000"/>
+                    <heap-memory size="10000"/>
                 </local-cache>
                 <distributed-cache name="sessions" owners="1"/>
                 <distributed-cache name="authenticationSessions" owners="1"/>
@@ -245,15 +244,15 @@
                 <distributed-cache name="offlineClientSessions" owners="1"/>
                 <distributed-cache name="loginFailures" owners="1"/>
                 <local-cache name="authorization">
-                    <object-memory size="10000"/>
+                    <heap-memory size="10000"/>
                 </local-cache>
                 <replicated-cache name="work"/>
                 <local-cache name="keys">
-                    <object-memory size="1000"/>
+                    <heap-memory size="1000"/>
                     <expiration max-idle="3600000"/>
                 </local-cache>
                 <distributed-cache name="actionTokens" owners="2">
-                    <object-memory size="-1"/>
+                    <heap-memory size="-1"/>
                     <expiration max-idle="-1" interval="300000"/>
                 </distributed-cache>
             </cache-container>
@@ -287,12 +286,12 @@
             <cache-container name="hibernate" module="org.infinispan.hibernate-cache">
                 <transport lock-timeout="60000"/>
                 <local-cache name="local-query">
-                    <object-memory size="10000"/>
+                    <heap-memory size="10000"/>
                     <expiration max-idle="100000"/>
                 </local-cache>
                 <invalidation-cache name="entity">
                     <transaction mode="NON_XA"/>
-                    <object-memory size="10000"/>
+                    <heap-memory size="10000"/>
                     <expiration max-idle="100000"/>
                 </invalidation-cache>
                 <replicated-cache name="timestamps"/>
@@ -676,6 +675,9 @@
         <socket-binding name="proxy-https" port="443"/>
         <outbound-socket-binding name="mail-smtp">
             <remote-destination host="localhost" port="25"/>
+        </outbound-socket-binding>
+        <outbound-socket-binding name="remote-cache">
+            <remote-destination host="{{ infinispan_address }}" port="11222"/>
         </outbound-socket-binding>
     </socket-binding-group>
 </server>
