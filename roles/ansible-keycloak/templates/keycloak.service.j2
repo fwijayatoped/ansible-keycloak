@@ -8,7 +8,7 @@ Type=idle
 Environment=LAUNCH_JBOSS_IN_BACKGROUND=1 JAVA_HOME=/usr/local/openjdk-jre JGROUPS_DISCOVERY_PROTOCOL=JDBC_PING JGROUPS_DISCOVERY_EXTERNAL_IP={{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}
 User={{ keycloak_service_user }}
 Group={{ keycloak_service_group }}
-ExecStart={{ keycloak_link_dir }}/bin/standalone.sh --server-config=standalone-ha.xml
+ExecStart={{ keycloak_link_dir }}/bin/standalone.sh -b=0.0.0.0 --server-config=standalone-ha.xml
 TimeoutStartSec=600
 TimeoutStopSec=600
 
