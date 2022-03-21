@@ -4,7 +4,7 @@ keycloak_mirror: https://github.com/keycloak/keycloak/releases/download
 
 keycloak_parent_install_dir: /var/lib
 
-keycloak_jdbc_version: 42.2.16
+keycloak_jdbc_version: 42.3.3
 keycloak_jdbc_module_dir: modules/system/layers/keycloak/org/postgresql/main
 keycloak_jdbc_url: https://jdbc.postgresql.org/download
 keycloak_jdbc_checksum: sha1:a9ee12f737bd5dc7d046e4c065e391d38d6a3cfc
