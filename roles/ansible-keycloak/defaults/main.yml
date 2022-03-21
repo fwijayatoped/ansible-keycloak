@@ -7,7 +7,7 @@ keycloak_parent_install_dir: /var/lib
 keycloak_jdbc_version: 42.3.3
 keycloak_jdbc_module_dir: modules/system/layers/keycloak/org/postgresql/main
 keycloak_jdbc_url: https://jdbc.postgresql.org/download
-keycloak_jdbc_checksum: sha1:a9ee12f737bd5dc7d046e4c065e391d38d6a3cfc
+keycloak_jdbc_checksum: sha1:6f639af368afda4c5a3e77a6299262c501e67076
 
 keycloak_config_dir: standalone/configuration
 keycloak_bind_address_management: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
