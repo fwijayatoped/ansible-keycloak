@@ -20,6 +20,8 @@ keycloak_postgres_url: 127.0.0.1
 keycloak_postgres_port: 5432
 keycloak_postgres_db: keycloak
 
+keycloak_admin: admin
+keycloak_password: admin
 
 keycloak_service_user: root
 keycloak_service_group: root
