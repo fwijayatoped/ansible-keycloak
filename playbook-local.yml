@@ -14,6 +14,6 @@
     keycloak_postgres_db: keycloak
     keycloak_service_user: root
     keycloak_service_group: root
-    infinispan_address: 10.21.47.221
-    infinispan_username: keycloak
-    infinispan_password: keycloak
+    infinispan_address: 10.21.40.1
+    infinispan_username: admin
+    infinispan_password: admin
