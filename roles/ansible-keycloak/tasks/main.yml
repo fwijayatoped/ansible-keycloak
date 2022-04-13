@@ -89,7 +89,7 @@
   template: 
     src: add-user-keycloak-custom.sh.j2
     dest: '{{ keycloak_link_dir }}/bin/add-user-keycloak-custom.sh'
-    mode: 0644
+    mode: "a+x"
   tags: [setup, update]
 
 - name: add to path
@@ -123,5 +123,5 @@
     daemon_reload: yes
     name: keycloak
   tags: [never, update]
-  
+
 - meta: flush_handlers
