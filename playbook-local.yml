@@ -7,38 +7,13 @@
       become: yes
   vars:
     keycloak_config_dir: standalone/configuration
-    keycloak_postgres_username: keycloak
-    keycloak_postgres_password: keycloak
-    keycloak_postgres_url: 10.21.38.200
+    keycloak_postgres_username: tkpproxies
+    keycloak_postgres_password: PbnppPaGdD87u9mzvat3nzBgT3mhLB
+    keycloak_postgres_url: 10.21.39.135
     keycloak_postgres_port: 5432
-    keycloak_postgres_db: keycloak
+    keycloak_postgres_db: tokopedia-proxies
     keycloak_service_user: root
     keycloak_service_group: root
-    infinispan_address: 10.21.40.1
+    infinispan_address: 10.21.40.95
     infinispan_username: admin
     infinispan_password: admin
-
-        # test keycloak
-    keycloak_config_dir: standalone/configuration
-    keycloak_postgres_username: keycloak
-    keycloak_postgres_password: !vault |
-      $ANSIBLE_VAULT;1.1;AES256
-      37366233336462323833313036313138353638663838383262613035643136353437626165383832
-      6139306166356330623861326635643136306665336462350a636332346634333937653862333837
-      61323430653430383237633431313432623733383838326466613562326637353962383833666263
-      3136316661646438340a356132656638623839383330363130343634313830643135383532353737
-      6135
-    keycloak_postgres_url: 10.21.38.200
-    keycloak_postgres_port: 5432
-    keycloak_postgres_db: keycloak
-    keycloak_service_user: root
-    keycloak_service_group: root
-    infinispan_address: 10.21.40.1
-    infinispan_username: keycloak
-    infinispan_password: !vault |
-      $ANSIBLE_VAULT;1.1;AES256
-      37366233336462323833313036313138353638663838383262613035643136353437626165383832
-      6139306166356330623861326635643136306665336462350a636332346634333937653862333837
-      61323430653430383237633431313432623733383838326466613562326637353962383833666263
-      3136316661646438340a356132656638623839383330363130343634313830643135383532353737
-      6135

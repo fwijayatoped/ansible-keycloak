@@ -85,6 +85,13 @@
     mode: 0644
   tags: [setup, update]
 
+- name: copy add-user-keycloak-custom.sh.j2
+  template: 
+    src: add-user-keycloak-custom.sh.j2
+    dest: '{{ keycloak_link_dir }}/bin/add-user-keycloak-custom.sh'
+    mode: 0644
+  tags: [setup, update]
+
 - name: add to path
   become: yes
   become_user: root
@@ -109,5 +116,12 @@
     - reload systemd
     - restart keycloak
   tags: [setup, update]
+
+- name: restart keycloak for tags update
+  systemd:
+    state: restarted
+    daemon_reload: yes
+    name: keycloak
+  tags: [never, update]
   
 - meta: flush_handlers
