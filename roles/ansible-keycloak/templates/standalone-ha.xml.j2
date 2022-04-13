@@ -487,7 +487,7 @@
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:jgroups:8.0">
             <channels default="ee">
-                <channel name="ee" stack="udp" cluster="ejb"/>
+                <channel name="ee" stack="pgping" cluster="ejb"/>
             </channels>
             <stacks>
                 <stack name="udp">
@@ -505,7 +505,7 @@
                     <protocol type="MFC"/>
                     <protocol type="FRAG3"/>
                 </stack>
-                <stack name="tcp">
+                <stack name="pgping">
                     <transport type="TCP" socket-binding="jgroups-tcp"/>
                     <protocol type="JDBC_PING">
                         <property name="datasource_jndi_name">java:jboss/datasources/KeycloakDS</property>
@@ -519,9 +519,7 @@
                             )
                         </property>
                     </protocol>
-                    <!-- <socket-protocol type="MPING" socket-binding="jgroups-mping"/> -->
                     <protocol type="MERGE3"/>
-                    <socket-protocol type="FD_SOCK" socket-binding="jgroups-tcp-fd"/>
                     <protocol type="FD_ALL"/>
                     <protocol type="VERIFY_SUSPECT"/>
                     <protocol type="pbcast.NAKACK2"/>
@@ -530,6 +528,7 @@
                     <protocol type="pbcast.GMS"/>
                     <protocol type="MFC"/>
                     <protocol type="FRAG3"/>
+                    <socket-protocol type="FD_SOCK" socket-binding="jgroups-tcp-fd"/>
                 </stack>
             </stacks>
         </subsystem>

@@ -5,7 +5,7 @@ Before=httpd.service
 
 [Service]
 Type=idle
-Environment=LAUNCH_JBOSS_IN_BACKGROUND=1 JAVA_HOME=/usr/local/openjdk-jre JGROUPS_DISCOVERY_PROTOCOL=JDBC_PING JGROUPS_DISCOVERY_EXTERNAL_IP={{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}
+Environment=LAUNCH_JBOSS_IN_BACKGROUND=1 JAVA_HOME=/usr/local/openjdk-jre
 User={{ keycloak_service_user }}
 Group={{ keycloak_service_group }}
 ExecStartPre={{ keycloak_link_dir }}/bin/add-user-keycloak.sh -u {{ keycloak_admin }} -p {{ keycloak_password }}

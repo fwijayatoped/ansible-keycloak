@@ -6,6 +6,7 @@
     path: '{{ keycloak_install_dir }}'
   changed_when: False
   register: keycloak_binary
+  tags: setup
 - when: not keycloak_binary.stat.exists
   block:
     - name: download tgz
@@ -16,6 +17,7 @@
         dest: /tmp/{{ keycloak_tgz }}
         checksum: '{{ keycloak_checksum }}'
         mode: 0644
+      tags: setup
     - name: unarchive
       become: yes
       become_user: root
@@ -24,6 +26,7 @@
         src: /tmp/{{ keycloak_tgz }}
         dest: '{{ keycloak_parent_install_dir }}'
         creates: '{{ keycloak_install_dir }}'
+      tags: setup
   always:
     - name: cleanup...
       become: yes
@@ -31,6 +34,7 @@
       file:
         path: /tmp/{{ keycloak_tgz }}
         state: absent
+      tags: setup
 
 - name: link
   become: yes
@@ -39,6 +43,7 @@
     src: '{{ keycloak_install_dir }}'
     dest: '{{ keycloak_link_dir }}'
     state: link
+  tags: setup
 
 - name: check for JDBC driver...
   become: yes
@@ -47,6 +52,7 @@
     path: '{{ keycloak_install_dir }}/{{ keycloak_jdbc_module_dir }}/{{ keycloak_jdbc_version }}.jar'
   changed_when: False
   register: jdbc_module
+  tags: setup
 
 - when: not jdbc_module.stat.exists
   block:
@@ -54,6 +60,7 @@
       file:
         path: '{{ keycloak_link_dir }}/{{ keycloak_jdbc_module_dir }}'
         state: directory
+      tags: setup
 
     - name: download jdbc module...
       become: yes
@@ -62,18 +69,21 @@
         dest: '{{ keycloak_link_dir }}/{{ keycloak_jdbc_module_dir }}/postgresql-{{ keycloak_jdbc_version }}.jar'
         checksum: '{{ keycloak_jdbc_checksum }}'
         mode: 0644
+      tags: setup
 
-    - name: create JDBC module.xml
-      template:
-        src: module.xml.j2
-        dest: '{{ keycloak_link_dir }}/{{ keycloak_jdbc_module_dir }}/module.xml'
-        mode: '0644'
-    
-    - name: copy standalone-ha.xml
-      template: 
-        src: standalone-ha.xml.j2
-        dest: '{{ keycloak_link_dir }}/{{ keycloak_config_dir }}/standalone-ha.xml'
-        mode: 0644
+- name: create JDBC module.xml
+  template:
+    src: module.xml.j2
+    dest: '{{ keycloak_link_dir }}/{{ keycloak_jdbc_module_dir }}/module.xml'
+    mode: '0644'
+  tags: [setup, update]
+
+- name: copy standalone-ha.xml
+  template: 
+    src: standalone-ha.xml.j2
+    dest: '{{ keycloak_link_dir }}/{{ keycloak_config_dir }}/standalone-ha.xml'
+    mode: 0644
+  tags: [setup, update]
 
 - name: add to path
   become: yes
@@ -85,6 +95,7 @@
     src: '{{ item.f }}.j2'
     dest: '{{ item.d }}/{{ item.f }}'
     mode: '{{ item.m|default("0644") }}'
+  tags: [setup, update]
 
 - name: configure systemd
   template:
@@ -97,5 +108,6 @@
   notify:
     - reload systemd
     - restart keycloak
-
+  tags: [setup, update]
+  
 - meta: flush_handlers
